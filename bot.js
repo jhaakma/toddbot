@@ -17,23 +17,41 @@ bot.on('ready', function (evt) {
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
+var responses = [
+    "It just works!™️",
+    "Yes, I was in the chess club.",
+    "Sixteen times the detail!",
+    "See that mountain? you can climb it!",
+    "I am Todd Howard -- T-O-D-D H-O-W-A-R-D.",
+    "These NPCs are not scripted!",
+    "Sometimes, it just doesn't work."
+]
+
 bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '!') {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
-       
-        args = args.splice(1);
-        switch(cmd) {
-            // !ping
-            case 'todd':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'It just works!'
-                });
-            break;
-            // Just add any case commands if you want to..
-         }
-     }
+
+    if ( user != bot.username ) {
+
+        if (message.toLowerCase().includes("todd howard") ) {
+            var response = responses[Math.floor(Math.random() * responses.length)]
+            bot.sendMessage({
+                to: channelID,
+                message: response
+            });
+        } 
+        else if (message.toLowerCase().includes("it just works") ) {
+            var response = responses[Math.floor(Math.random() * responses.length)]
+            bot.sendMessage({
+                to: channelID,
+                message: "Sometimes, it just doesn't work."
+            });
+        }
+
+        else if (message.toLowerCase().includes("tod howard") ) {
+            var response = responses[Math.floor(Math.random() * responses.length)]
+            bot.sendMessage({
+                to: channelID,
+                message: "I am Todd Howard -- T-O-D-D H-O-W-A-R-D."
+            });
+        }
+    }
 });
