@@ -1,4 +1,4 @@
-var Discord = require('discord.io');
+var Discord = require('discord.js');
 var logger = require('winston');
 var auth = require('./auth.json');
 // Configure logger settings
@@ -7,15 +7,11 @@ logger.add(new logger.transports.Console, {
     colorize: true
 });
 logger.level = 'debug';
-// Initialize Discord Bot
-var bot = new Discord.Client({
-   token: auth.token,
-   autorun: true
-});
-bot.on('ready', function (evt) {
+// Initialize Discord client\
+var client = new Discord.Client();
+client.on('ready', function (evt) {
     logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
+    logger.info('Logged in as ${client.user.tag}!');
 });
 var responses = [
     "It just works!™️",
@@ -27,31 +23,26 @@ var responses = [
     "Sometimes, it just doesn't work."
 ]
 
-bot.on('message', function (user, userID, channelID, message, evt) {
-
-    if ( user != bot.username ) {
-
-        if (message.toLowerCase().includes("todd howard") ) {
+client.on('message', message => {
+    logger.info("message recieved")
+    if ( message.author.username != client.user.username ) {
+        
+        if (message.content.toLowerCase().includes("todd howard") ) {
+            logger.info("Found message: todd howard")
             var response = responses[Math.floor(Math.random() * responses.length)]
-            bot.sendMessage({
-                to: channelID,
-                message: response
-            });
+            message.channel.send(response)
         } 
-        else if (message.toLowerCase().includes("it just works") ) {
+        else if (message.content.toLowerCase().includes("it just works") ) {
             var response = responses[Math.floor(Math.random() * responses.length)]
-            bot.sendMessage({
-                to: channelID,
-                message: "Sometimes, it just doesn't work."
-            });
+            message.channel.send("Sometimes, it just doesn't work.")
+
         }
 
-        else if (message.toLowerCase().includes("tod howard") ) {
+        else if (message.content.toLowerCase().includes("tod howard") ) {
             var response = responses[Math.floor(Math.random() * responses.length)]
-            bot.sendMessage({
-                to: channelID,
-                message: "I am Todd Howard -- T-O-D-D H-O-W-A-R-D."
-            });
+            message.channel.send("I am Todd Howard -- T-O-D-D H-O-W-A-R-D.")
         }
     }
 });
+
+client.login(auth.token);
