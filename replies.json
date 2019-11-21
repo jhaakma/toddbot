@@ -11,20 +11,32 @@
         ["Sometimes, it doesn't just work."]
     ],
     "textReplies": {
-        "it just works": ["Sometimes, it doesn't just work."],
-        "tod howard": ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
-        "tell me lies": ["Tell me sweet little lies..."],
-        "skyrim sucks": ["If you want us to stop releasing Skyrim, stop buying it!"]
+        "partial": {
+            "it just works": ["Sometimes, it doesn't just work."],
+            "tod howard": ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
+            "tell me lies": ["Tell me sweet little lies..."],
+            "skyrim sucks": ["If you want us to stop releasing Skyrim, stop buying it!"]
+        },
+        "full": {
+        }
+        
     },
     "emojiReplies": {
-        "excited": [":excited:481404244239581205"],
-        "free the crab": [":banhammer:537248733155295243", "🦀"],
-        "caius cosades": [":sexy:527994270880235539"],
-        "feature creep": [":creeper:534834891704238112"],
-        "facepalm": [":facepalm:541813012063846402"],
-        "blim-dim": [":slave:412080538397048862"]
+        "partial":{
+            "excited": [":excited:481404244239581205"],
+            "free the crab": [":banhammer:537248733155295243", "🦀"],
+            "caius cosades": [":sexy:527994270880235539"],
+            "feature creep": [":creeper:534834891704238112"],
+            "facepalm": [":facepalm:541813012063846402"],
+            "blim-dim": [":slave:412080538397048862"]
+        },
+        "full": {
+            "<:handwave:537373963987320833>": ["<:handwave:537373963987320833>"],
+            "👋": ["👋"]
+        }
+        
     },
     "commands": {
-        "fishystick": ["`Here's your fishy stick, ${user}!`", "<:fishystick:644679294945329182>"]
+        "fishystick": ["`Here's your fishy stick, ${args[1]}!`", "<:fishystick:644679294945329182>"]
     }
 }

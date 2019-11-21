@@ -20,7 +20,7 @@ function hasText(message, pattern) {
 function startsWith(message, pattern) {
     return message.content.toLowerCase().startsWith(pattern)
 }
-function sendReply(message, reply) {
+function sendReply(message, reply, args) {
     //handle special logic of replies as commands
     if (reply.startsWith('`')) {
         message.channel.send(eval(reply))
@@ -28,6 +28,7 @@ function sendReply(message, reply) {
         message.channel.send(reply)    
     }
 }
+
 
 function doCommand(message) {
     //Commands
@@ -39,11 +40,7 @@ function doCommand(message) {
             for ( command in replies.commands ) {
                 if (command == thisCommand) {
                     replies.commands[command].forEach( function(reply){
-                        if (reply.startsWith('`')) {
-                            message.channel.send(eval(reply))
-                        } else {
-                            message.channel.send(reply)    
-                        }
+                        sendReply(message, reply, args)
                         return true
                     })
                     logger.debug("Did command: %s", command)
@@ -59,13 +56,21 @@ function doReplyText(message) {
     //Default
     if ( hasText(message, "todd howard") ) {
         response = getDefaultReply()
-    }
-    //Check prompts for replies
-    else {
-        for ( prompt in replies.textReplies ) {
-            if ( hasText(message, prompt) ) {
-                response = replies.textReplies[prompt]
+    } else {
+        //full prompts first
+        for ( prompt in replies.textReplies.full ) {
+            if ( message.content.toLowerCase() == prompt) {
+                response = replies.textReplies.full[prompt]
                 break
+            }
+        }
+        //partial prompts
+        if ( response == null ) {
+            for ( prompt in replies.textReplies.partial ) {
+                if ( hasText(message, prompt) ) {
+                    response = replies.textReplies.partial[prompt]
+                    break
+                }
             }
         }
     }
@@ -81,15 +86,25 @@ function doReplyText(message) {
 }
 
 function doReplyEmoji(message) {
-        //Check prompts for reactions
-        for ( prompt in replies.emojiReplies ) {
-            if ( hasText(message, prompt ) ) {
-                replies.emojiReplies[prompt].forEach( function(emoji) {
-                    message.react(emoji)
-                })
-            }
+    //full prompts
+    for ( prompt in replies.emojiReplies.full ) {
+        if ( hasText(message, prompt ) ) {
+            replies.emojiReplies.full[prompt].forEach( function(emoji) {
+                message.react(emoji).then().catch(function(err) { logger.error(err)})
+            })
         }
+    }
+    //partial prompts
+    for ( prompt in replies.emojiReplies.partial ) {
+        if ( hasText(message, prompt ) ) {
+            replies.emojiReplies.partial [prompt].forEach( function(emoji) {
+                message.react(emoji).then().catch(function(err) { logger.error(err)})
+            })
+        }
+    }
 }
+
+//Events
 
 client.on('message', message => {
     var validMessage = (
