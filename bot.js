@@ -1,18 +1,14 @@
 var Discord = require('discord.js');
-var logger = require('winston');
 var auth = require('./auth.json');
-// Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(new logger.transports.Console, {
-    colorize: true
-});
-logger.level = 'debug';
-// Initialize Discord client\
+var logger = require('./logger')
+
+logger.setLogLevel("DEBUG")
+// Initialize Discord client
 var client = new Discord.Client();
 client.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as ${client.user.tag}!');
+    logger.info('Logged in as %s', client.user.tag)
 });
+
 var responses = [
     "It just works!™️",
     "Yes, I was in the chess club.",
@@ -20,28 +16,83 @@ var responses = [
     "See that mountain? you can climb it!",
     "I am Todd Howard -- T-O-D-D H-O-W-A-R-D.",
     "These NPCs are not scripted!",
-    "Sometimes, it just doesn't work."
+    "Sometimes, it doesn't just work."
 ]
+function getDefaultResponse() {
+    return responses[Math.floor(Math.random() * responses.length)]
+}
+
+function hasText(message, pattern) {
+    return message.content.toLowerCase().includes(pattern)
+}
+
+function isText(message, text) {
+    return message.content.toLowerCase === text
+}
+
+var commands = {
+
+}
 
 client.on('message', message => {
-    logger.info("message recieved")
-    if ( message.author.username != client.user.username ) {
-        
-        if (message.content.toLowerCase().includes("todd howard") ) {
-            logger.info("Found message: todd howard")
-            var response = responses[Math.floor(Math.random() * responses.length)]
+    var validMessage = (
+        message.author.username != client.user.username //&&
+        //message.channel.parent.name == "General Talk"
+    )
+
+    if ( validMessage ) {
+        var response
+        //Todd Howard
+        if ( hasText(message, "todd howard") ) {
+            response = getDefaultResponse()
+        }
+        //It just works!
+        else if ( hasText(message, "it just works") ) {
+            response = "Sometimes, it doesn't just work."
+        }
+        //Misspelling Tod
+        else if ( hasText(message, "tod howard") ) {
+            response = "I am Todd Howard -- T-O-D-D H-O-W-A-R-D."
+        }
+
+        //Misspelling Tod
+        else if ( hasText(message, "tell me lies") ) {
+            response = "Tell me sweet little lies..."
+        }
+
+        //Respond
+        if ( response != null ) {
             message.channel.send(response)
-        } 
-        else if (message.content.toLowerCase().includes("it just works") ) {
-            var response = responses[Math.floor(Math.random() * responses.length)]
-            message.channel.send("Sometimes, it just doesn't work.")
-
         }
 
-        else if (message.content.toLowerCase().includes("tod howard") ) {
-            var response = responses[Math.floor(Math.random() * responses.length)]
-            message.channel.send("I am Todd Howard -- T-O-D-D H-O-W-A-R-D.")
+        //REACTIONS
+
+        //Excited
+        if ( hasText(message, "excited") ) {
+            message.react(":excited:481404244239581205").then().catch(console.error)
         }
+        //Ban the crab
+        if ( hasText(message, "free the crab" ) ) {
+            message.react(":banhammer:537248733155295243")
+            message.react("🦀")
+        }
+
+        //Caius Cosades
+        if ( hasText(message, "caius cosades" ) ) {
+            message.react(":sexy:527994270880235539")
+        }
+
+        //Feaure creep
+        if ( hasText(message, "feature creep") ) {
+            message.react(":creeper:534834891704238112")
+        }
+
+        //Facepalm
+        if ( hasText(message, "facepalm") ) {
+            message.react(":facepalm:541813012063846402")
+        }
+    } else {
+        logger.debug("'%s' Not valid message", message.content)
     }
 });
 
