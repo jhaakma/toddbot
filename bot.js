@@ -53,27 +53,23 @@ function doCommand(message) {
 
 function doReplyText(message) {
     var response
-    //Default
-    if ( hasText(message, "todd howard") ) {
-        response = getDefaultReply()
-    } else {
-        //full prompts first
-        for ( prompt in replies.textReplies.full ) {
-            if ( message.content.toLowerCase() == prompt) {
-                response = replies.textReplies.full[prompt]
+    //full prompts first
+    for ( prompt in replies.textReplies.full ) {
+        if ( message.content.toLowerCase() == prompt) {
+            response = replies.textReplies.full[prompt]
+            break
+        }
+    }
+    //partial prompts
+    if ( response == null ) {
+        for ( prompt in replies.textReplies.partial ) {
+            if ( hasText(message, prompt) ) {
+                response = replies.textReplies.partial[prompt]
                 break
             }
         }
-        //partial prompts
-        if ( response == null ) {
-            for ( prompt in replies.textReplies.partial ) {
-                if ( hasText(message, prompt) ) {
-                    response = replies.textReplies.partial[prompt]
-                    break
-                }
-            }
-        }
     }
+
     //Respond
     if ( response != null ) {
         response.forEach( function(reply) {
