@@ -11,8 +11,7 @@
     "textReplies": {
         "it just works": ["Sometimes, it doesn't just work."],
         "tod howard": ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
-        "tell me lies": ["Tell me sweet little lies..."],
-        "fishy stick": ["`Here's your fishy stick, ${message.member.displayName}!`", "<:fishystick:644679294945329182>"]
+        "tell me lies": ["Tell me sweet little lies..."]
     },
     "emojiReplies": {
         "excited": [":excited:481404244239581205"],
@@ -20,5 +19,8 @@
         "caius cosades": [":sexy:527994270880235539"],
         "feature creep": [":creeper:534834891704238112"],
         "facepalm": [":facepalm:541813012063846402"]
+    },
+    "commands": {
+        "fishystick": ["`Here's your fishy stick, ${user}!`", "<:fishystick:644679294945329182>"]
     }
 }
