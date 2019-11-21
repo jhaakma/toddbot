@@ -106,7 +106,6 @@ client.on('message', message => {
 });
 
 client.on('guildMemberUpdate', function(oldMember, newMember){
-    logger.debug("Role changed for %s", oldMember.displayName)
     const oldRoles = oldMember.roles
     const newRoles = newMember.roles
 
