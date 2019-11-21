@@ -10,5 +10,8 @@
         "erlpack": "github:discordapp/erlpack",
         "nodemon": "^2.0.0",
         "winston": ">=3.2.1"
+    },
+    "scripts": {
+	"start": "node bot.js"
     }
 }
