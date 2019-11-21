@@ -5,9 +5,13 @@
     "main": "bot.js",
     "author": "Merlord",
     "dependencies": {
+        "@discordjs/uws": "^11.149.1",
         "chalk": "^3.0.0",
         "discord.js": "^11.5.1",
+        "erlpack": "github:discordapp/erlpack",
         "nodemon": "^2.0.0",
-        "winston": ">=3.2.1"
+        "winston": ">=3.2.1",
+        "zlib-sync": "^0.1.6",
+        "zucc": "^0.1.2"
     }
 }

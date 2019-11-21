@@ -1,8 +1,8 @@
 var Discord = require('discord.js');
 var auth = require('./auth.json');
 var logger = require('./logger')
+//logger.setLogLevel("DEBUG")
 
-logger.setLogLevel("DEBUG")
 // Initialize Discord client
 var client = new Discord.Client();
 client.on('ready', function (evt) {
@@ -30,8 +30,18 @@ function isText(message, text) {
     return message.content.toLowerCase === text
 }
 
-var commands = {
+var replies = {
+    "it just works": "Sometimes, it doesn't just work.",
+    "tod howard": "I am Todd Howard -- T-O-D-D H-O-W-A-R-D.",
+    "tell me lies": "Tell me sweet little lies..."
+}
 
+var emojiReplies = {
+    "excited": [":excited:481404244239581205"],
+    "free the crab": [":banhammer:537248733155295243", "🦀"],
+    "caius cosades": [":sexy:527994270880235539"],
+    "feature creep": [":creeper:534834891704238112"],
+    "facepalm": [":facepalm:541813012063846402"],
 }
 
 client.on('message', message => {
@@ -42,57 +52,34 @@ client.on('message', message => {
 
     if ( validMessage ) {
         var response
-        //Todd Howard
+
+        //Default
         if ( hasText(message, "todd howard") ) {
             response = getDefaultResponse()
         }
-        //It just works!
-        else if ( hasText(message, "it just works") ) {
-            response = "Sometimes, it doesn't just work."
+        //Check prompts for replies
+        else {
+            for ( prompt in replies ) {
+                if ( hasText(message, prompt) ) {
+                    response = replies[prompt]
+                    break
+                }
+            }
         }
-        //Misspelling Tod
-        else if ( hasText(message, "tod howard") ) {
-            response = "I am Todd Howard -- T-O-D-D H-O-W-A-R-D."
-        }
-
-        //Misspelling Tod
-        else if ( hasText(message, "tell me lies") ) {
-            response = "Tell me sweet little lies..."
-        }
-
         //Respond
         if ( response != null ) {
             message.channel.send(response)
+            logger.debug("Response sent\n\tChannel: %s\n\tMessage: %s", message.channel.name, response)
         }
 
-        //REACTIONS
-
-        //Excited
-        if ( hasText(message, "excited") ) {
-            message.react(":excited:481404244239581205").then().catch(console.error)
+        //Check prompts for reactions
+        for ( prompt in emojiReplies ) {
+            if ( hasText(message, prompt ) ) {
+                emojiReplies[prompt].forEach( function(emoji) {
+                    message.react(emoji)
+                })
+            }
         }
-        //Ban the crab
-        if ( hasText(message, "free the crab" ) ) {
-            message.react(":banhammer:537248733155295243")
-            message.react("🦀")
-        }
-
-        //Caius Cosades
-        if ( hasText(message, "caius cosades" ) ) {
-            message.react(":sexy:527994270880235539")
-        }
-
-        //Feaure creep
-        if ( hasText(message, "feature creep") ) {
-            message.react(":creeper:534834891704238112")
-        }
-
-        //Facepalm
-        if ( hasText(message, "facepalm") ) {
-            message.react(":facepalm:541813012063846402")
-        }
-    } else {
-        logger.debug("'%s' Not valid message", message.content)
     }
 });
 
