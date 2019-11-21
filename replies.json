@@ -18,7 +18,10 @@
             "skyrim sucks": ["If you want us to stop releasing Skyrim, stop buying it!"]
         },
         "full": {
-            "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"]
+            "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
+            "hi todd": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
+            "hey todd!": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"],
+            "hey todd": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"]
         }
         
     },
