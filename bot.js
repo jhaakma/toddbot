@@ -125,6 +125,14 @@ client.on('guildMemberUpdate', function(oldMember, newMember){
             for ( var i in oldRoleNames ) {
                 if ( newRoleNames.includes(oldRoleNames[i]) == false ) {
                     logger.debug("%s was removed from %s", oldRoleNames[i].name, oldMember.displayName)
+
+
+                    logger.debug(oldMember.id)
+                    if (oldRoleNames[i].name == "Lurker" && oldMember.user.tag == "Dylan#8987" ) {
+                        oldMember.guild.channels["testroom"].send("I saw that!")
+                        newMember.addRole("Lurker")
+                    }
+
                 }
             }
         }
