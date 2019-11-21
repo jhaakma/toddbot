@@ -32,15 +32,12 @@ function sendReply(message, reply) {
 function doCommand(message) {
     //Commands
     if (message.content.substring(0, 1) == '?') {
-        logger.debug("Found command")
         var args = message.content.substring(1).split(' ');
         var thisCommand = args[0].toLowerCase();
         const user = message.mentions.users.first()
         if ( user ) {
             for ( command in replies.commands ) {
-                logger.debug("Command: %s, thisCommand: %s", command, thisCommand)
                 if (command == thisCommand) {
-                    logger.debug("found command %s", command)
                     replies.commands[command].forEach( function(reply){
                         if (reply.startsWith('`')) {
                             message.channel.send(eval(reply))
@@ -49,6 +46,7 @@ function doCommand(message) {
                         }
                         return true
                     })
+                    logger.debug("Did command: %s", command)
                 }
             }
         }
@@ -106,5 +104,41 @@ client.on('message', message => {
         }
     }
 });
+
+client.on('guildMemberUpdate', function(oldMember, newMember){
+    logger.debug("Role changed for %s", oldMember.displayName)
+    const oldRoles = oldMember.roles
+    const newRoles = newMember.roles
+
+    
+    if (oldRoles.size != newRoles.size) {
+        var oldRoleNames = []
+        var newRoleNames = []
+        oldRoles.forEach( function(role) {
+            oldRoleNames.push(role)
+        })
+        newRoles.forEach( function(role) {
+            newRoleNames.push(role)
+        })
+
+        //Role removed
+        if ( oldRoleNames.length > newRoleNames.length ) {
+            for ( var i in oldRoleNames ) {
+                if ( newRoleNames.includes(oldRoleNames[i]) == false ) {
+                    logger.debug("%s was removed from %s", oldRoleNames[i].name, oldMember.displayName)
+                }
+            }
+        }
+        //Role added
+        if ( newRoleNames.length > oldRoleNames.length ) {
+            for ( var i in newRoleNames ) {
+                if ( oldRoleNames.includes(newRoleNames[i]) == false ) {
+                    logger.debug("%s was added to %s", newRoleNames[i].name, oldMember.displayName)
+                }
+            }
+        }
+    }
+})
+
 
 client.login(auth.token);
