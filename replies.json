@@ -1,0 +1,24 @@
+{
+    "defaultReplies": [
+        ["It just works!™️"],
+        ["Yes, I was in the chess club."],
+        ["Sixteen times the detail!"],
+        ["See that mountain? you can climb it!"],
+        ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
+        ["These NPCs are not scripted!"], 
+        ["Sometimes, it doesn't just work."]
+    ],
+    "textReplies": {
+        "it just works": ["Sometimes, it doesn't just work."],
+        "tod howard": ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
+        "tell me lies": ["Tell me sweet little lies..."],
+        "fishy stick": ["`Here's your fishy stick, ${message.member.displayName}!`", "<:fishystick:644679294945329182>"]
+    },
+    "emojiReplies": {
+        "excited": [":excited:481404244239581205"],
+        "free the crab": [":banhammer:537248733155295243", "🦀"],
+        "caius cosades": [":sexy:527994270880235539"],
+        "feature creep": [":creeper:534834891704238112"],
+        "facepalm": [":facepalm:541813012063846402"]
+    }
+}
