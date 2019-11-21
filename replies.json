@@ -18,6 +18,7 @@
             "skyrim sucks": ["If you want us to stop releasing Skyrim, stop buying it!"]
         },
         "full": {
+            "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"]
         }
         
     },
@@ -31,8 +32,8 @@
             "blim-dim": [":slave:412080538397048862"]
         },
         "full": {
-            "<:handwave:537373963987320833>": ["<:handwave:537373963987320833>"],
-            "👋": ["👋"]
+            "<:handwave:537373963987320833>": [":handwave:537373963987320833"],
+            "👋": [":handwave:537373963987320833"]
         }
         
     },
