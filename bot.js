@@ -218,7 +218,6 @@ client.on('guildMemberUpdate', function(oldMember, newMember){
 
                     logger.debug(oldMember.id)
                     if (oldRoleNames[i].name == "Lurker" && oldMember.user.tag == "Dylan#8987" ) {
-                        oldMember.guild.channels["testroom"].send("I saw that!")
                         newMember.addRole("Lurker")
                     }
 
