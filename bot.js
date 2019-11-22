@@ -189,6 +189,8 @@ client.on('message', message => {
     if ( message.content == "ok" ){
         if ( message.author.tag == "Enclavekiller#9742" ) {
             message.channel.send("<:sPoNgEbOb:624477158596804608>")
+        } else if ( message.author.tag == "Merlord#0980" ) {
+            message.channel.send("lol got em")
         }
     }
 
