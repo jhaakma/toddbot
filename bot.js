@@ -67,7 +67,7 @@ function sendReply(message, reply, args) {
         if ( replyText != "" ) {
             message.channel.send(replyText)
         }
-    } else {n
+    } else {
         message.channel.send(reply)    
     }
 }
