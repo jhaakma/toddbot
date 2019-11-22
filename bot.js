@@ -167,16 +167,19 @@ client.on('message', message => {
     var date = new Date()
     var validMessage = (
         message.author.username != client.user.username
-        && date.getTime() > shutupUntilTime
         && (
             message.channel.name == "general" 
             || message.channel.name == "chim"
+            || message.channel
         )
     )
 
     if ( validMessage ) {
         var didCommand = doCommand(message)
-        if ( didCommand == false ) {
+        if ( 
+            didCommand == false 
+            && date.getTime() > shutupUntilTime 
+        ) {
             doReplyText(message)
             doReplyEmoji(message)
         }

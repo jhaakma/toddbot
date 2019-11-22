@@ -13,7 +13,6 @@
     ],
     "textReplies": {
         "partial": {
-            "todd howard": ["`${getDefaultReply()}`"],
             "it just works": ["Sometimes, it doesn't just work."],
             "tod howard": ["I am Todd Howard -- T-O-D-D H-O-W-A-R-D."],
             "tell me lies": ["Tell me sweet little lies..."],
@@ -21,8 +20,8 @@
             "I mean it todd, shut ": ["`${shutup(5)}Okay, fine! (silenced for 5 minutes)`"],
             "shut up todd": ["Make me!"],
             "shut the fuck up, todd": ["Why should I?"],
-            "shut the fuck up todd": ["Why should I?"]
-            
+            "shut the fuck up todd": ["Why should I?"],
+            " todd?": ["`${getDefaultReply()}`"]
         },
         "full": {
             "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
