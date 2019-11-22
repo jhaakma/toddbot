@@ -218,6 +218,8 @@ client.on('guildMemberUpdate', function(oldMember, newMember){
 
                     logger.debug(oldMember.id)
                     if (oldRoleNames[i].name == "Lurker" && oldMember.user.tag == "Dylan#8987" ) {
+                        const channel = oldMember.guild.channels.find(ch => ch.name === 'testroom')
+                        channel.send("Adding TDM back to Lurker role!")
                         newMember.addRole("Lurker")
                     }
 
