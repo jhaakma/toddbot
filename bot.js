@@ -188,7 +188,7 @@ client.on('message', message => {
     //Reply to EK
     if ( message.content == "ok" ){
         if ( message.author.tag == "Enclavekiller#9742" ) {
-            message.reply("<:sPoNgEbOb:624477158596804608>")
+            message.channel.send("<:sPoNgEbOb:624477158596804608>")
         }
     }
 
