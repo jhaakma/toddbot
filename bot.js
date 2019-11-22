@@ -73,7 +73,7 @@ function sendReply(message, reply, args) {
 }
 
 
-setInterval(checkRemindMe, 1000)
+client.setInterval(checkRemindMe, 1000)
 function checkRemindMe() {
     var date = new Date()
     var now = date.getTime()
