@@ -20,31 +20,92 @@ function hasText(message, pattern) {
 function startsWith(message, pattern) {
     return message.content.toLowerCase().startsWith(pattern)
 }
+
+
+var shutupUntilTime = 0
+function shutup(minutes) {
+    var date = new Date()
+    shutupUntilTime = date.getTime() + ( minutes * 1000 * 60 )
+    logger.info("Shutting up until %s", shutupUntilTime)
+    return ""
+}
+
+var reminders = {}
+function remindMe(user, args) {
+    if ( args.length < 4 ) { return "invalid" }
+    const timeFromNow = args[1]
+    const timeType = args[2]
+    var messageToSend = ""
+    for ( var i = 3; i < args.length; i++ ) {
+        messageToSend = messageToSend + " " + args[i]
+    }
+
+    if (  isNaN(timeFromNow) ) {
+        return ""
+    }
+    var date = new Date()
+    var now = date.getTime()
+    var time
+    if ( timeType == "hours" || timeType == "hour" ) {
+        time = now + (timeFromNow * 60 * 60 * 1000 )
+    }else if ( timeType == "minutes" || timeType == "minute" ) {
+        time = now + (timeFromNow * 60 * 1000 )
+    } else if ( timeType == "seconds" || timeType == "second" ) {
+        time = now + (timeFromNow * 1000 )
+    } else {
+        return ""
+    }
+    
+    reminders[user.id] = { time: time, message: messageToSend }
+    return eval("`Sure thing ${user.username}, I will remind you in ${timeFromNow} ${timeType}!`")
+}
+
 function sendReply(message, reply, args) {
     //handle special logic of replies as commands
     if (reply.startsWith('`')) {
-        message.channel.send(eval(reply))
-    } else {
+        const replyText = eval(reply)
+        if ( replyText != "" ) {
+            message.channel.send(replyText)
+        }
+    } else {n
         message.channel.send(reply)    
     }
 }
 
+
+setInterval(checkRemindMe, 1000)
+function checkRemindMe() {
+    var date = new Date()
+    var now = date.getTime()
+    for (userId in reminders) {
+        if ( now > reminders[userId].time) {
+            var message = reminders[userId].message
+            delete reminders[userId]
+            client.fetchUser(userId)
+            .then( user => {
+                user.createDM()
+                .then( dm => {
+                    dm.send("Here's your reminder: " + message)
+                })
+            })
+        }
+    }
+}
 
 function doCommand(message) {
     //Commands
     if (message.content.substring(0, 1) == '?') {
         var args = message.content.substring(1).split(' ');
         var thisCommand = args[0].toLowerCase();
-        const user = message.mentions.users.first()
-        if ( user ) {
-            for ( command in replies.commands ) {
-                if (command == thisCommand) {
-                    replies.commands[command].forEach( function(reply){
-                        sendReply(message, reply, args)
-                        return true
-                    })
-                    logger.debug("Did command: %s", command)
-                }
+
+        for ( command in replies.commands ) {
+            if (command == thisCommand) {
+                replies.commands[command].forEach( function(reply){
+                    sendReply(message, reply, args)
+                    return
+                })
+                logger.info("Did command: %s", command)
+                return true
             }
         }
     }
@@ -103,12 +164,18 @@ function doReplyEmoji(message) {
 //Events
 
 client.on('message', message => {
+    var date = new Date()
     var validMessage = (
         message.author.username != client.user.username
+        && date.getTime() > shutupUntilTime
+        && (
+            message.channel.name == "general" 
+            || message.channel.name == "chim"
+        )
     )
 
     if ( validMessage ) {
-        const didCommand = doCommand(message)
+        var didCommand = doCommand(message)
         if ( didCommand == false ) {
             doReplyText(message)
             doReplyEmoji(message)
