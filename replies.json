@@ -19,6 +19,7 @@
             "seriously todd, shut ": ["`${shutup(5)}Okay, fine! (silenced for 5 minutes)`"],
             "I mean it todd, shut ": ["`${shutup(5)}Okay, fine! (silenced for 5 minutes)`"],
             "shut up todd": ["Make me!"],
+            "shut up, todd": ["Make me!"],
             "shut the fuck up, todd": ["Why should I?"],
             "shut the fuck up todd": ["Why should I?"],
             " todd?": ["`${getDefaultReply()}`"]
@@ -38,19 +39,12 @@
     "emojiReplies": {
         "partial":{
             "excited": [":excited:481404244239581205"],
-            "exciting": [":excited:481404244239581205"],
             "free the crab": [":banhammer:537248733155295243", "🦀"],
-            "caius cosades": [":sexy:527994270880235539"],
             "feature creep": [":creeper:534834891704238112"],
             "facepalm": [":facepalm:541813012063846402"],
             "blim-dim": [":slave:412080538397048862"],
             "mgso": ["⚠️"]
-        },
-        "full": {
-            "<:handwave:537373963987320833>": [":handwave:537373963987320833"],
-            "👋": [":handwave:537373963987320833"]
         }
-        
     },
     "commands": {
         "fishystick": ["`Here's your fishy stick, ${args[1]}!`", "<:fishystick:644679294945329182>"],
