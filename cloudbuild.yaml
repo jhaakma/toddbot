@@ -1,0 +1,12 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/aerobic-forge-249209/toddbot', '.']
+# Push the image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/aerobic-forge-249209/toddbot']
+# Deploy image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['beta', 'run', 'deploy', 'toddBot', '--image', 'gcr.io/aerobic-forge-249209/toddbot', '--region', 'australia-southeast1', '--platform', 'managed', '--allow-unauthenticated']
+images:
+- gcr.io/aerobic-forge-249209/toddbot
