@@ -4,6 +4,14 @@ var replies = require('./replies.json')
 var logger = require('./logger')
 logger.setLogLevel("DEBUG")
 
+var express = require('express');
+var app = express()
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log('Listening on port', port);
+});
+
+
 // Initialize Discord client
 var client = new Discord.Client();
 client.on('ready', function (evt) {
