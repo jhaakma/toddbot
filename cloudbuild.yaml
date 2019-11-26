@@ -7,6 +7,6 @@ steps:
   args: ['push', 'gcr.io/aerobic-forge-249209/toddbot']
 # Deploy image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['beta', 'run', 'deploy', 'toddbot', '--image', 'gcr.io/aerobic-forge-249209/toddbot', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
+  args: ['beta', 'run', 'deploy', 'toddbot', '--image', 'gcr.io/aerobic-forge-249209/toddbot', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated', '--env-vars-file', '.env.yaml']
 images:
 - gcr.io/aerobic-forge-249209/toddbot
