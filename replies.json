@@ -22,10 +22,7 @@
             "shut up, todd": ["Make me!"],
             "shut the fuck up, todd": ["Why should I?"],
             "shut the fuck up todd": ["Why should I?"],
-            " todd?": ["`${getDefaultReply()}`"],
-            "thanks todd": ["Don't mention it."],
-            "thanks todd!": ["You're welcome!"],
-            "thank you todd": ["No worries."]
+            " todd?": ["`${getDefaultReply()}`"]
         },
         "full": {
             "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
@@ -35,7 +32,10 @@
             "hey todd!": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"],
             "hey todd": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"],
             "hey, todd!": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"],
-            "hey, todd": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"]
+            "hey, todd": ["`<:handwave:537373963987320833> Hey ${message.author.username}!`"],
+            "thanks todd": ["Don't mention it."],
+            "thanks todd!": ["You're welcome!"],
+            "thank you todd": ["No worries."]
         }
         
     },
