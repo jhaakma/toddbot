@@ -1,6 +1,6 @@
 var Discord = require('discord.js');
-var auth = require('./auth.json');
 var replies = require('./replies.json')
+var auth = require('./auth.json')
 var logger = require('./logger')
 logger.setLogLevel("DEBUG")
 
