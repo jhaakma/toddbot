@@ -23,8 +23,9 @@
             "shut the fuck up, todd": ["Why should I?"],
             "shut the fuck up todd": ["Why should I?"],
             " todd?": ["`${getDefaultReply()}`"],
-            "thanks Todd": "Don't mention it.",
-            "thanks Todd!": "You're welcome!"
+            "thanks todd": ["Don't mention it."],
+            "thanks todd!": ["You're welcome!"],
+            "thank you todd": ["No worries."]
         },
         "full": {
             "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
