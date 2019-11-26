@@ -1,9 +1,9 @@
 var Discord = require('discord.js');
 var replies = require('./replies.json')
-var auth = require('./auth.json')
+var dotenv = require('dotenv')
 var logger = require('./logger')
 logger.setLogLevel("DEBUG")
-
+dotenv.config()
 var express = require('express');
 var app = express()
 const port = process.env.PORT || 8080;
@@ -247,5 +247,5 @@ client.on('message', message => {
 //     }
 // })
 
-
-client.login(auth.token);
+var token = process.env.TOKEN
+client.login(token);
