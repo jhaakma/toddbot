@@ -248,4 +248,5 @@ client.on('message', message => {
 // })
 
 var token = process.env.TOKEN
+logger.debug("token: %s", token)
 client.login(token);
