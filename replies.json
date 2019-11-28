@@ -23,6 +23,7 @@
             "shut the fuck up, todd": ["Why should I?"],
             "shut the fuck up todd": ["Why should I?"],
             " todd?": ["`${getDefaultReply()}`"]
+            
         },
         "full": {
             "hi todd!": ["`<:handwave:537373963987320833> Hi ${message.author.username}!`"],
@@ -49,8 +50,28 @@
             "mgso": ["⚠️"]
         }
     },
+
+    "userReplies": {
+        "Merlord#0980": {
+            "full": {
+                "ok": ["lol got em"]
+            },
+            "partial": {
+                "what do you think, todd?": ["`I think that's a great idea, ${message.author}!`"],
+                "what do you think todd?": ["`I think that's a great idea, ${message.author}!`"]
+            }
+        },
+        "Enclavekiller#9742": {
+            "full": {
+                "ok": ["<:sPoNgEbOb:624477158596804608>"]
+            },
+            "partial": {}
+        }
+    },
+
     "commands": {
         "fishystick": ["`Here's your fishy stick, ${args[1]}!`", "<:fishystick:644679294945329182>"],
         "remindme": ["`${remindMe(message.author, args)}`"]
     }
 }
+

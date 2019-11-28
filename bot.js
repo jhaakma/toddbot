@@ -121,29 +121,45 @@ function doCommand(message) {
 }
 
 function doReplyText(message) {
-    var response
-    //full prompts first
-    for ( prompt in replies.textReplies.full ) {
-        if ( message.content.toLowerCase() == prompt) {
-            response = replies.textReplies.full[prompt]
-            break
-        }
-    }
-    //partial prompts
-    if ( response == null ) {
-        for ( prompt in replies.textReplies.partial ) {
-            if ( hasText(message, prompt) ) {
-                response = replies.textReplies.partial[prompt]
-                break
+    logger.debug("entering doReplyText")
+    function execute(list) {
+        //full prompts first
+        for ( prompt in list.full ) {
+            if ( message.content.toLowerCase() == prompt) {
+                logger.debug( "full: %s", list.full[prompt])
+                return list.full[prompt]
             }
         }
+        //partial prompts
+        for ( prompt in list.partial ) {
+            if ( hasText(message, prompt) ) {
+                logger.debug("partial: %s", list.partial[prompt])
+                return list.partial[prompt]
+            }
+        }
+        return false
+    }
+
+    var response
+
+    //User specific
+    for ( userTag in replies.userReplies ) {
+        if ( message.author.tag == userTag ) {
+            logger.debug("matched %s", userTag)
+            response = execute(replies.userReplies[userTag])
+        }
+    }
+    //Generic
+    if ( !response ) {
+        logger.debug("Checking generic")
+        response = execute(replies.textReplies)
     }
 
     //Respond
-    if ( response != null ) {
+    if ( response ) {
         response.forEach( function(reply) {
             sendReply(message, reply)
-            logger.debug("Response sent\n\tChannel: %s\n\tMessage: %s", message.channel.name, reply)
+            logger.info("Response sent\n\tChannel: %s\n\tMessage: %s", message.channel.name, reply)
         })
         return true
     }
@@ -173,34 +189,37 @@ function doReplyEmoji(message) {
 
 client.on('message', message => {
     var date = new Date()
-    var validMessage = (
-        message.author.username != client.user.username
-        && (
-            message.channel.name == "general" 
-            || message.channel.name == "chim"
-            || message.channel
-        )
-    )
 
-    if ( validMessage ) {
+    var notBot = ( message.author.username != client.user.username)
+    var validChannel = ( message.channel.name == "general" 
+        || message.channel.name == "chim" )
+    var notSilenced = ( date.getTime() > shutupUntilTime )
+
+    logger.debug("notBot %s",notBot)
+    logger.debug("validChannel %s",validChannel)
+    logger.debug("notSilenced %s",notSilenced)
+
+    if ( notBot ) {
         var didCommand = doCommand(message)
         if ( 
             didCommand == false 
-            && date.getTime() > shutupUntilTime 
+            && validChannel
+            && notSilenced
         ) {
             doReplyText(message)
             doReplyEmoji(message)
         }
     }
+
     
-    //Reply to EK
-    if ( message.content == "ok" ){
-        if ( message.author.tag == "Enclavekiller#9742" ) {
-            message.channel.send("<:sPoNgEbOb:624477158596804608>")
-        } else if ( message.author.tag == "Merlord#0980" ) {
-            message.channel.send("lol got em")
-        }
-    }
+    // //Reply to EK
+    // if ( message.content == "ok" ){
+    //     if ( message.author.tag == "Enclavekiller#9742" ) {
+    //         message.channel.send("<:sPoNgEbOb:624477158596804608>")
+    //     } else if ( message.author.tag == "Merlord#0980" ) {
+    //         message.channel.send("lol got em")
+    //     }
+    // }
 
 });
 
