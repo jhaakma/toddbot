@@ -72,7 +72,8 @@
 
     "commands": {
         "fishystick": ["`Here's your fishy stick, ${args[1]}!`", "<:fishystick:644679294945329182>"],
-        "remindme": ["`${remindMe(message.author, args)}`"]
+        "remindme": ["`${remindMe(message.author, args)}`"],
+        "dagothwave": ["https://www.youtube.com/watch?v=iR-K2rUP86M"]
     }
 }
 
