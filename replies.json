@@ -58,7 +58,8 @@
             },
             "partial": {
                 "what do you think, todd?": ["`I think that's a great idea, ${message.author}!`"],
-                "what do you think todd?": ["`I think that's a great idea, ${message.author}!`"]
+                "what do you think todd?": ["`I think that's a great idea, ${message.author}!`"],
+                "todd is breathtaking": ["You're breathtaking!"]
             }
         },
         "Enclavekiller#9742": {
