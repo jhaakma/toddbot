@@ -213,48 +213,48 @@ client.on('message', message => {
 
 });
 
-// client.on('guildMemberUpdate', function(oldMember, newMember){
-//     const oldRoles = oldMember.roles
-//     const newRoles = newMember.roles
+client.on('guildMemberUpdate', function(oldMember, newMember){
+    const oldRoles = oldMember.roles
+    const newRoles = newMember.roles
 
     
-//     if (oldRoles.size != newRoles.size) {
-//         var oldRoleNames = []
-//         var newRoleNames = []
-//         oldRoles.forEach( function(role) {
-//             oldRoleNames.push(role)
-//         })
-//         newRoles.forEach( function(role) {
-//             newRoleNames.push(role)
-//         })
+    if (oldRoles.size != newRoles.size) {
+        var oldRoleNames = []
+        var newRoleNames = []
+        oldRoles.forEach( function(role) {
+            oldRoleNames.push(role)
+        })
+        newRoles.forEach( function(role) {
+            newRoleNames.push(role)
+        })
 
-//         //Role removed
-//         if ( oldRoleNames.length > newRoleNames.length ) {
-//             for ( var i in oldRoleNames ) {
-//                 if ( newRoleNames.includes(oldRoleNames[i]) == false ) {
-//                     logger.debug("%s was removed from %s", oldRoleNames[i].name, oldMember.displayName)
+        //Role removed
+        if ( oldRoleNames.length > newRoleNames.length ) {
+            for ( var i in oldRoleNames ) {
+                if ( newRoleNames.includes(oldRoleNames[i]) == false ) {
+                    logger.debug("%s was removed from %s", oldRoleNames[i].name, oldMember.displayName)
 
 
-//                     logger.debug(oldMember.id)
-//                     if (oldRoleNames[i].name == "Lurker" && oldMember.user.tag == "Dylan#8987" ) {
-//                         const channel = oldMember.guild.channels.find(ch => ch.name === 'testroom')
-//                         channel.send("Adding TDM back to Lurker role!")
-//                         newMember.addRole("Lurker")
-//                     }
+                    logger.debug(oldMember.id)
+                    if (oldRoleNames[i].name == "Lurker" && oldMember.user.tag == "Dylan#8987" ) {
+                        const channel = oldMember.guild.channels.find(ch => ch.name === 'testroom')
+                        channel.send("The Crab is loose!")
+                        //newMember.addRole("Lurker")
+                    }
 
-//                 }
-//             }
-//         }
-//         //Role added
-//         if ( newRoleNames.length > oldRoleNames.length ) {
-//             for ( var i in newRoleNames ) {
-//                 if ( oldRoleNames.includes(newRoleNames[i]) == false ) {
-//                     logger.debug("%s was added to %s", newRoleNames[i].name, oldMember.displayName)
-//                 }
-//             }
-//         }
-//     }
-// })
+                }
+            }
+        }
+        //Role added
+        if ( newRoleNames.length > oldRoleNames.length ) {
+            for ( var i in newRoleNames ) {
+                if ( oldRoleNames.includes(newRoleNames[i]) == false ) {
+                    logger.debug("%s was added to %s", newRoleNames[i].name, oldMember.displayName)
+                }
+            }
+        }
+    }
+})
 
 var token = process.env.TOKEN
 logger.debug("token: %s", token)
