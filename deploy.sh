@@ -6,7 +6,7 @@ if [ $LOCAL != $REMOTE ]; then
     git pull
     wait
     echo "Deploying new code"
-    yes | gcloud app deploy --version prod
+    yes | gcloud app deploy aerobic-forge-249209 --version prod
 else
     echo "No changes"
 fi
