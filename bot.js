@@ -2,6 +2,7 @@ var Discord = require('discord.js');
 var replies = require('./replies.json')
 var dotenv = require('dotenv')
 var logger = require('./logger')
+var util = require('util')
 logger.setLogLevel("DEBUG")
 dotenv.config()
 var express = require('express');
@@ -29,6 +30,9 @@ function startsWith(message, pattern) {
     return message.content.toLowerCase().startsWith(pattern)
 }
 
+/*
+    Command functions
+*/
 
 var shutupUntilTime = 0
 function shutup(minutes) {
@@ -38,49 +42,10 @@ function shutup(minutes) {
     return ""
 }
 
+/*
+    Remind me
+*/
 var reminders = {}
-function remindMe(user, args) {
-    if ( args.length < 4 ) { return "invalid" }
-    const timeFromNow = args[1]
-    const timeType = args[2]
-    var messageToSend = ""
-    for ( var i = 3; i < args.length; i++ ) {
-        messageToSend = messageToSend + " " + args[i]
-    }
-
-    if (  isNaN(timeFromNow) ) {
-        return ""
-    }
-    var date = new Date()
-    var now = date.getTime()
-    var time
-    if ( timeType == "hours" || timeType == "hour" ) {
-        time = now + (timeFromNow * 60 * 60 * 1000 )
-    }else if ( timeType == "minutes" || timeType == "minute" ) {
-        time = now + (timeFromNow * 60 * 1000 )
-    } else if ( timeType == "seconds" || timeType == "second" ) {
-        time = now + (timeFromNow * 1000 )
-    } else {
-        return ""
-    }
-    
-    reminders[user.id] = { time: time, message: messageToSend }
-    return eval("`Sure thing ${user.username}, I will remind you in ${timeFromNow} ${timeType}!`")
-}
-
-function sendReply(message, reply, args) {
-    //handle special logic of replies as commands
-    if (reply.startsWith('`')) {
-        const replyText = eval(reply)
-        if ( replyText != "" ) {
-            message.channel.send(replyText)
-        }
-    } else {
-        message.channel.send(reply)    
-    }
-}
-
-
 client.setInterval(checkRemindMe, 1000)
 function checkRemindMe() {
     var date = new Date()
@@ -100,24 +65,100 @@ function checkRemindMe() {
     }
 }
 
+const commands = {
+    remindme:  function (message, args) {
+        const user = message.author
+        if ( args.length < 4 ) { return "invalid" }
+        const timeFromNow = args[1]
+        const timeType = args[2]
+        var messageToSend = ""
+        for ( var i = 3; i < args.length; i++ ) {
+            messageToSend = messageToSend + " " + args[i]
+        }
+    
+        if (  isNaN(timeFromNow) ) {
+            return ""
+        }
+        var date = new Date()
+        var now = date.getTime()
+        var time
+        if ( timeType == "hours" || timeType == "hour" ) {
+            time = now + (timeFromNow * 60 * 60 * 1000 )
+        }else if ( timeType == "minutes" || timeType == "minute" ) {
+            time = now + (timeFromNow * 60 * 1000 )
+        } else if ( timeType == "seconds" || timeType == "second" ) {
+            time = now + (timeFromNow * 1000 )
+        } else {
+            return ""
+        }
+        
+        reminders[user.id] = { time: time, message: messageToSend }
+        sendReply(message,
+            util.format(
+                "Sure thing %s, I will remind you in %d %s!",
+                user.username,
+                timeFromNow,
+                timeType
+            )
+        )
+    },
+    fishystick: function (message, args) {
+        sendReply(message,
+            util.format(
+                "Here's your fishy stick, %s!",
+                args[1]
+            )
+        )
+        sendReply(message, "<:fishystick:644679294945329182>")
+    },
+    dagothwave: function (message, args) {
+        sendReply(message, "https://www.youtube.com/watch?v=iR-K2rUP86M")
+    },
+    toxic:function(message, args) {
+        const attachment = new Discord.Attachment('https://cdn.discordapp.com/attachments/235844597371109376/649706052211703810/unknown.png');
+        message.channel.send("", attachment)
+    },
+    edgy:function(message, args) {
+        const url = 'https://cdn.discordapp.com/emojis/482363007645515787.png'
+        const attachment = new Discord.Attachment(url);
+        message.channel.send("", attachment)
+    }
+}
+
+
+
+
+
 function doCommand(message) {
     //Commands
     if (message.content.substring(0, 1) == '?') {
         var args = message.content.substring(1).split(' ');
         var thisCommand = args[0].toLowerCase();
 
-        for ( command in replies.commands ) {
+        for ( command in commands ) {
             if (command == thisCommand) {
-                replies.commands[command].forEach( function(reply){
-                    sendReply(message, reply, args)
-                    return
-                })
+                commands[command](message, args)
                 logger.info("Did command: %s", command)
                 return true
             }
         }
     }
     return false
+}
+
+/*
+    Text reply stuff
+*/
+function sendReply(message, reply) {
+    //handle special logic of replies as commands
+    if (reply.startsWith('`')) {
+        const replyText = eval(reply)
+        if ( replyText != "" ) {
+            message.channel.send(replyText)
+        }
+    } else {
+        message.channel.send(reply)    
+    }
 }
 
 function doReplyText(message) {
